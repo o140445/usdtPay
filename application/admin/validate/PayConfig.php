@@ -1,10 +1,10 @@
 <?php
 
-namespace app\admin\validate\pay;
+namespace app\admin\validate;
 
 use think\Validate;
 
-class Config extends Validate
+class PayConfig extends Validate
 {
     /**
      * 验证规则
