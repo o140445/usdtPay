@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>支付</title>
+    <link rel="shortcut icon" href="__CDN__/assets/img/favicon.ico"/>
+    <link href="__CDN__/assets/css/index.css" rel="stylesheet">
+    <link href="__CDN__/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__CDN__/assets/css/frontend.min.css" rel="stylesheet">
+
+<!--    <script src="__CDN__/assets/js/html5shiv.js?={$site.version|htmlentities}"></script>-->
+<!--    <script src="__CDN__/assets/js/respond.min.js?={$site.version|htmlentities}"></script>-->
+<!--&lt;!&ndash;    <script src="__CDN__/assets/js/frontend/index.js?={$site.version|htmlentities}"></script>&ndash;&gt;-->
+<!--    <script src="__CDN__/assets/js/require.js?={$site.version|htmlentities}"></script>-->
+
+<!--    <script src="__CDN__/assets/js/require{$Think.config.app_debug?'':'.min'}.js" data-main="__CDN__/assets/js/require-frontend{$Think.config.app_debug?'':'.min'}.js?v={$site.version|htmlentities}"></script>-->
+<!--    <link href="__CDN__/assets/css/frontend{$Think.config.app_debug?'':'.min'}.css?v={$Think.config.site.version|htmlentities}" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-table/dist/bootstrap-table.min.css">-->
+
+
+
+
+</head>
+<style>
+    .profile-avatar-container {
+        position: relative;
+        width: 100px;
+        margin: 0 auto;
+    }
+
+    .profile-avatar-container .profile-user-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-avatar-container .profile-avatar-text {
+        display: none;
+    }
+
+    .profile-avatar-container:hover .profile-avatar-text {
+        display: block;
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        background: #444;
+        opacity: .6;
+        color: #fff;
+        top: 0;
+        left: 0;
+        line-height: 100px;
+        text-align: center;
+    }
+
+    .profile-avatar-container button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+    }
+</style>
+
+<body>
+
+<div id="mainbody">
+    <div class="container">
+        <div class="row animated fadeInRight">
+            <div class="col-md-12 col-xs-12" style="display: flex;justify-content: center;">
+                <div class="col-md-8 col-xs-12">
+
+<!--                    // 公告区-->
+                    <div class="box box-success">
+                        <div class="panel-body text-center">
+                            <h3 class="profile-username text-center">{:__('公告')}</h3>
+                            <p>{$home_notice['content']|htmlentities}</p>
+                        </div>
+                    </div>
+
+                    <form id="add-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="POST" action="{:url('index/pay')}" >
+                        {:token()}
+
+                        <div class="box box-success">
+                            <div class="panel-body">
+                                <div class="box-body box-profile">
+                                    <h2 class="profile-username text-center mb-4">{:__('充值')}</h2>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('选择服务器')}</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="row[server_id]"  data-rule="required">
+                                                <option value="">请选择服务器</option>
+                                                {volist name="server_list" id="vo"}
+                                                <option value="{$vo['id']}">{$vo['name']} - {$vo['desc']}</option>
+                                                {/volist}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('游戏账号')}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="row[account]" placeholder="{:__('游戏账号')}"  data-rule="required">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('确定账号')}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="row[account_confirm]" placeholder="{:__('确定账号')}"  data-rule="required">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('联系Telegram')}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="row[contact]" placeholder="{:__('联系Telegram')}" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('充值金额(USDT)')}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="row[amount]" placeholder="{:__('充值金额（USDT）')}"  data-rule="required">
+                                        </div>
+<!--                                        // 提示-->
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('')}</label>
+                                        <div class="col-sm-9" >
+                                            <p style="color: red;  font-size: 12px;">{$amount_notice['content']|htmlentities}</p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" hidden="hidden">
+                                        <label for="inputPassword3" class="col-sm-3 control-label">{:__('支付通道')}</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="row[pay_id]" value="{$pay_config['id']|default=''}"  data-rule="required">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group" style="display: flex; justify-content: center; gap: 10px;">
+                                    <button type="submit" class="btn btn-success " >{:__('充值')}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

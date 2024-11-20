@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>支付</title>
+    <link rel="shortcut icon" href="__CDN__/assets/img/favicon.ico"/>
+    <link href="__CDN__/assets/css/index.css" rel="stylesheet">
+    <link href="__CDN__/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__CDN__/assets/css/frontend.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+
+
+    <!--    <script src="__CDN__/assets/js/html5shiv.js?={$site.version|htmlentities}"></script>-->
+    <!--    <script src="__CDN__/assets/js/respond.min.js?={$site.version|htmlentities}"></script>-->
+    <!--&lt;!&ndash;    <script src="__CDN__/assets/js/frontend/index.js?={$site.version|htmlentities}"></script>&ndash;&gt;-->
+    <!--    <script src="__CDN__/assets/js/require.js?={$site.version|htmlentities}"></script>-->
+
+    <!--    <script src="__CDN__/assets/js/require{$Think.config.app_debug?'':'.min'}.js" data-main="__CDN__/assets/js/require-frontend{$Think.config.app_debug?'':'.min'}.js?v={$site.version|htmlentities}"></script>-->
+    <!--    <link href="__CDN__/assets/css/frontend{$Think.config.app_debug?'':'.min'}.css?v={$Think.config.site.version|htmlentities}" rel="stylesheet">-->
+    <!--    <link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-table/dist/bootstrap-table.min.css">-->
+
+
+
+
+</head>
+<style>
+    .profile-avatar-container {
+        position: relative;
+        width: 100px;
+        margin: 0 auto;
+    }
+
+    .profile-avatar-container .profile-user-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-avatar-container .profile-avatar-text {
+        display: none;
+    }
+
+    .profile-avatar-container:hover .profile-avatar-text {
+        display: block;
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        background: #444;
+        opacity: .6;
+        color: #fff;
+        top: 0;
+        left: 0;
+        line-height: 100px;
+        text-align: center;
+    }
+
+    .profile-avatar-container button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        opacity: 0;
+    }
+</style>
+
+<body>
+
+<div id="mainbody">
+    <div class="container">
+        <div class="row animated fadeInRight">
+            <div class="col-md-12 col-xs-12" style="display: flex;justify-content: center;">
+                <div class="col-md-8 col-xs-12">
+
+                    <!--                    // 公告区-->
+                    <div class="box box-success">
+                        <div class="panel-body text-center">
+                            <h3 class="profile-username text-center">{:__('公告')}</h3>
+                            <p>{$home_notice['content']|htmlentities}</p>
+                        </div>
+                    </div>
+
+                    <!--                    //pay-info 显示二维码 金额 和 usdt地址  hidden="hidden"-->
+                    <div class="box box-success" id="pay-info">
+                        <div class="panel-body text-center">
+                            <h3 class="profile-username text-center">{:__('支付信息')}</h3>
+
+<!--                            // 过期时间-->
+                            <p><strong>{:__('过期时间')}:</strong> {$data.expire_time}</p>
+                            <div class="form-group text-center" style="">
+<!--                                // 订单金额-->
+                                <p><strong>{:__('金额')}:</strong> USDT {$data.amount}</p>
+                                <p style="color: red;  font-size: 12px;">请务必输入正确的金额，否则无法到账</p>
+                            </div>
+
+                            <div class="form-group text-center">
+                                <img src="{$data.image}" alt=""  id="qrcode" style="width: 200px; height: 200px;">
+                            </div>
+                            <div class="form-group text-center " >
+                                <p id="usdt_address"><strong>{:__('USDT地址')}:</strong> {$data.pay_url}</p>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-success" id="copy" data-clipboard-text="{$data.pay_url}">
+                                    <i class="fa fa-copy"></i>
+                                    {:__('复制')}
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
