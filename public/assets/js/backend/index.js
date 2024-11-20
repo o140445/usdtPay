@@ -45,16 +45,18 @@ define(['jquery', 'bootstrap', 'backend', 'addtabs', 'adminlte', 'form'], functi
                         method: 'GET'
                     }, function (res) {
                         // 更新消息图标上的数量
-                        $('#notification-count').html(res.num);
+                        if (res.num > 0) {
+                            // 如果通知数量增加，则播放提示音
+                            if (res.num > previousNotificationCount) {
+                                playNotificationSound();
+                            }
 
-                        // 如果通知数量增加，则播放提示音
-                        if (res.num > previousNotificationCount) {
-                            playNotificationSound();
+                            $('#notification-count').html(res.num);
+                            // 更新上一次的通知数量
+                            previousNotificationCount = res.num;
+                            parent.Toastr.success(res.msg);
                         }
 
-                        // 更新上一次的通知数量
-                        previousNotificationCount = res.num;
-                        parent.Toastr.success(res.msg);
                         return false;
                     });
                 }
