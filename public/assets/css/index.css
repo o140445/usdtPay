@@ -65,7 +65,6 @@ p {
     overflow-y: hidden;
     background: #f1f6fd;
     color: #474157;
-    height: calc(100vh - 61px);
 }
 
 #mainbody > .container > .text-center {
