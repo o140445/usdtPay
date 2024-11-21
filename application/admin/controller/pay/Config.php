@@ -70,8 +70,7 @@ class Config extends Backend
 
             // 生成签名
             $params['sign'] = $this->getSign();
-            $params['image'] =  $this->getImgUrl($params['usdt_address']);
-
+            $params['image'] =  "";
             $result = $this->model->allowField(true)->save($params);
             Db::commit();
         } catch (ValidateException|PDOException|Exception $e) {
@@ -112,17 +111,6 @@ class Config extends Backend
 
     }
 
-    protected function getImgUrl($usdt_address)
-    {
-        // 获取 usdtAddress
-        if (isset($usdt_address) && !empty($usdt_address)) {
-            $url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $usdt_address;
-            $img = file_get_contents($url);
-            $img = base64_encode($img);
-            return "data:image/png;base64," . $img;
-        }
-        return '';
-    }
 
     public function edit($ids = null)
     {
@@ -155,7 +143,7 @@ class Config extends Backend
 
             // 如果 usdt_address 发生变化，重新生成二维码
             if ($row->usdt_address != $params['usdt_address']) {
-                $params['image'] =  $this->getImgUrl($params['usdt_address']);
+                $params['image'] =  "";
             }
 
             $result = $row->allowField(true)->save($params);

@@ -28,8 +28,22 @@ class UsdtPayChannel implements ChannelInterface
         return  [
             'status' => 1,
             'pay_url' => $channel->usdt_address,
-            'image' => $channel->image,
+            'image' => $this->getImgUrl('tron:'.$channel->usdt_address.'?amount='.$params['actual_amount']),
         ];
+    }
+
+
+    protected function getImgUrl($usdt_address)
+    {
+        var_dump($usdt_address);die();
+        // 获取 usdtAddress
+        if (isset($usdt_address) && !empty($usdt_address)) {
+            $url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $usdt_address;
+            $img = file_get_contents($url);
+            $img = base64_encode($img);
+            return "data:image/png;base64," . $img;
+        }
+        return '';
     }
 
     public function payNotify($channel, $params) : array
