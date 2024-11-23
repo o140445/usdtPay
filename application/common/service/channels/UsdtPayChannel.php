@@ -35,7 +35,6 @@ class UsdtPayChannel implements ChannelInterface
 
     protected function getImgUrl($usdt_address)
     {
-        var_dump($usdt_address);die();
         // 获取 usdtAddress
         if (isset($usdt_address) && !empty($usdt_address)) {
             $url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $usdt_address;
